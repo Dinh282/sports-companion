@@ -1,0 +1,30 @@
+body {
+    background: linear-gradient(to right, red, orange) fixed;
+}
+
+/* .img{
+    display: flex;
+}
+
+#logo {
+    display: flex;
+    align-content: center;
+} */
+
+.main{
+    display: flex;
+    flex-flow: row wrap;
+    text-align: center;
+}
+.logo{
+    display: flex;
+    flex-wrap: wrap;
+    flex-grow: 17;
+    justify-content: center;
+}
+
+.logo img{
+    display: flex;
+    flex-wrap: wrap;
+    flex-basis: auto;
+}

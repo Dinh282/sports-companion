@@ -5,18 +5,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- <link href="https://cdn.tailwindcss.com" rel="stylesheet"> -->
-    <link rel="stylesheet" type="text/css" href="./assets/style.css"/>
-    <title>Sports Companion</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" type="text/css" href="./assets/style.css"/>
+
+    <title>Sports Companion</title>
+    
 </head>
 <body>
     <main class="main">
-    <seciton class="logo">
+    <section class="logo">
         <img src="./assets/SClogo.png" id="logo" alt="logo for Sports Companion">
-    </seciton>
+    </section>
     </main>
 
-    
 
     <form id="search-form" class="">
         <!-- <input id="search-input" class="" type="text" placeholder="Search For Your Team!"> -->
@@ -49,16 +50,42 @@
           <option value="18814">Portland Trail Blazers</option>
           <option value="18818">Sacramento Kings</option>
           <option value="18815">San Antonio Spurs</option>
-          <option value="3">Toronto Raptors</option>
+          <option value="0">Toronto Raptors</option>
           <option value="18809">Utah Jazz</option>
           <option value="18799">Washington Wizards</option>
         </select>
-        <button class="" id="submit-btn">Search</button>
+        <button class="bg-sky-500 hover:bg-blue-700" id="submit-btn">Select</button>
       </form>
 
+
+    <!-- modal container for alert messages -->
+    <div id="alertModal" class="modal fixed w-full h-full top-0 left-0 flex items-center justify-center hidden">
+        <!-- modal content -->
+        <div class="modal-content bg-white w-1/3 rounded shadow-lg">
+        <!-- modal header -->
+        <div class="modal-header px-4 py-2 bg-gray-100 border-b">
+            <h3 class="font-semibold text-lg">Modal Header</h3>
+        </div>
+        <!-- modal body -->
+        <div class="modal-body px-4 py-2">
+            <p>Modal body text goes here.</p>
+        </div>
+        <!-- Modal footer -->
+        <div class="modal-footer px-4 py-2 bg-gray-100 border-t">
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"">
+            Close
+            </button>
+        </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
       <div id="teams-list"></div>
-
-
 
 
 

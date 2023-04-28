@@ -1,53 +1,20 @@
 $(function() {
 
-
    $('#submit-btn').on("click", function(event){
         event.preventDefault();
 
-    // var teamName = $('#search-input').val();
-    // id 1 = football, id 2 = tennis, id 3 = basketball, id 4 hockey, id 5 = volleyball, id 6 = handball.
     var selectedTeam = $('#team-selection').val();
-
-    // console.log(teamName);
-    console.log(selectedTeam);
 
     if(selectedTeam === null){
         selectTeamModal();
-    }else{
-        //  retrieveData(selectedTeam);
+    }else if (selectedTeam === 0){
+        noResultsModal();
+    }
+    else{
+        // calls renderTeam() function retrieveData(selectedTeam);
         renderTeam(selectedTeam);
     }
 });
-
-//     function retrieveData(selectedTeam){
-  
-//     const settings = {
-//         async: true,
-//         crossDomain: true,
-//         // https://sportscore1.p.rapidapi.com/teams/search?page=1&name=${teamName}&locale=en&is_national=0&sport_id=${teamID}
-//         url: `https://sportscore1.p.rapidapi.com/teams/${selectedTeam}`,
-//         method: 'GET',
-//         headers: {
-//             'content-type': 'application/octet-stream',
-//             'X-RapidAPI-Key': '9645f86db6mshd04ff3feb630999p10f16cjsnc4bb4d59410b',
-//             'X-RapidAPI-Host': 'sportscore1.p.rapidapi.com'
-//         }
-//     };
-    
-//     $.ajax(settings).done(function (response) {
-//         console.log(response);
-//         if(response.data.length === 0){
-//             //TODO: modal alerting user their search yielded no results.
-//             noResultsModal();
-//         }else{
-//             // getTeamID(response);
-//             renderTeam(response);
-//         }
-//     });
-
-//     console.log(selectedTeam)
-// };
-
 
 function renderTeam(selectedTeam) {
     $("#teams-list").empty();
@@ -65,9 +32,6 @@ function renderTeam(selectedTeam) {
     };
     
     $.ajax(settings).done(function (response) {
-       
-    
-        console.log(response);
         if(response.data.length === 0){
             //TODO: modal alerting user their search yielded no results.
             noResultsModal();
@@ -82,6 +46,9 @@ function renderTeam(selectedTeam) {
                     managerPhoto:response.data.manager.photo,
                     managerNationality:response.data.manager.nationality_code}
                 
+                //if certain data category is unavailable, the value comes back as null. This for loop goes through our
+                //data object to check for this possible and converts null to N/A so user can understand that the info is 
+                // Not Available.
                 for (let key in data) {
                     if( data[key] === null){
                         data[key] = "N/A";
@@ -100,33 +67,31 @@ function renderTeam(selectedTeam) {
                             <h4 class= "">Date of Birth: ${data.managerDOB}</h4>
                             <img src= ${data.managerPhoto}>
                             <p class= "">Nationality: ${data.managerNationality}</p>
+                            <button class="" id="roster-btn">Click Here to See Team's Roster</button>
                         </div>
                     </div>
                 </div>
                 `
                 $("#teams-list").append(teamCard);
             
+                $('#roster-btn').on("click", function(event){
+                    event.preventDefault();
+                    var queryString = './results.html?q=' + data.teamName;
+                    location.assign(queryString);
+
+                });
         }
     });
-
 
 };
 
 function noResultsModal (){
-console.log("no results");
 
+console.log("no results");
 };
 
 function selectTeamModal() {
 console.log("please select a team!");
-
 }
-
-// function getTeamID(response) {
-//     var teamID = (response.data[0].id)
-//     renderTeam(teamID);
-//     console.log(teamID)
-// }
-
 
 })

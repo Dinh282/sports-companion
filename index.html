@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,6 +12,16 @@
     
 </head>
 <body>
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@2.51.6/dist/full.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link rel="stylesheet" type="text/css" href="./assets/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Sports Companion</title>
+  </head>
+  <body>
     <main class="main">
     <section class="logo">
         <img src="./assets/SClogo.png" id="logo" alt="logo for Sports Companion">
@@ -56,6 +66,56 @@
         </select>
         <button class="bg-sky-500 hover:bg-blue-700" id="submit-btn">Select</button>
       </form>
+      <section class="logo">
+        <img
+          src="./assets/SClogo.png"
+          id="logo"
+          alt="logo for Sports Companion"
+        />
+      </section>
+
+      <div id="divider"></div>
+      <section class="flex flex-row justify-content:center...">
+        <form id="search-form" style="display: none">
+          <!-- <input id="search-input" class="" type="text" placeholder="Search For Your Team!"> -->
+          <select
+            id="team-selection"
+            class="select select-bordered select-lg w-full max-w-xs"
+          >
+            <option value="" disabled selected>Select an NBA Team</option>
+            <option value="18804">Atlanta Hawks</option>
+            <option value="18793">Boston Celtics</option>
+            <option value="18797">Brooklyn Nets</option>
+            <option value="18801">Charlotte Hornets</option>
+            <option value="18800">Chicago Bulls</option>
+            <option value="18805">Cleveland Cavaliers</option>
+            <option value="18812">Dallas Mavericks</option>
+            <option value="18807">Denver Nuggets</option>
+            <option value="18802">Detroit Pistons</option>
+            <option value="18820">Golden State Warriors</option>
+            <option value="18810">Houston Rockets</option>
+            <option value="18796">Indiana Pacers</option>
+            <option value="18808">Los Angeles Clippers</option>
+            <option value="18806">Los Angeles Lakers</option>
+            <option value="18813">Memphis Grizzlies</option>
+            <option value="18794">Miami Heat</option>
+            <option value="18791">Milwaukee Bucks</option>
+            <option value="18819">Minnesota Timberwolves</option>
+            <option value="18816">New Orleans Pelicans</option>
+            <option value="18803">New York Knicks</option>
+            <option value="18811">Oklahoma City Thunder</option>
+            <option value="18798">Orlando Magic</option>
+            <option value="18795">Philadelphia 76ers</option>
+            <option value="18817">Phoenix Suns</option>
+            <option value="18814">Portland Trail Blazers</option>
+            <option value="18818">Sacramento Kings</option>
+            <option value="18815">San Antonio Spurs</option>
+            <option value="3">Toronto Raptors</option>
+            <option value="18809">Utah Jazz</option>
+            <option value="18799">Washington Wizards</option>
+          </select>
+          <button class="" id="submit-btn">Search</button>
+        </form>
 
 
     <!-- modal container for alert messages -->

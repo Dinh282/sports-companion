@@ -1,21 +1,16 @@
 body {
-    background: linear-gradient(to right, red, orange) fixed;
+    background: linear-gradient(to right, red, orange);
+    height: 2000px;
 }
-
-/* .img{
-    display: flex;
-}
-
-#logo {
-    display: flex;
-    align-content: center;
-} */
 
 .main{
     display: flex;
-    flex-flow: row wrap;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
 }
+
+/* styling of logo image  */
 .logo{
     display: flex;
     flex-wrap: wrap;
@@ -28,3 +23,20 @@ body {
     flex-wrap: wrap;
     flex-basis: auto;
 }
+
+/* animation of logo image when page loads */
+
+@keyframes spin3D {
+    from { transform: rotateY(0deg) }
+    to { transform: rotateY(360deg) }
+  }
+  .logo {
+    animation-name: spin3D;
+    animation-duration: 3s;
+    animation-iteration-count: 1;
+    animation-timing-function: ease-in-out;
+  }
+
+  #divider{
+    height: 48px;
+  }

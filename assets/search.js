@@ -1,3 +1,10 @@
+// js to allow search form to appear 5s after page loads
+const searchForm = document.getElementById("search-form");
+ setTimeout(()=>{
+    searchForm.style.display="block";
+ },5000);
+
+
 $(function() {
 
 

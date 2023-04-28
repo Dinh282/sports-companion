@@ -1,20 +1,23 @@
-// js to allow search form to appear 5s after page loads
+// js to allow search form to appear 3s after page loads
 const searchForm = document.getElementById("search-form");
  setTimeout(()=>{
     searchForm.style.display="block";
- },5000);
+ },3000);
 
 
 $(function() {
 
-   $('#submit-btn').on("click", function(event){
-        event.preventDefault();
+   $('#submit-btn').on("click", function(){
+        //since we are using a modal to display alerts as well a team stats, we need to clear out previous data
+        // so new data does not just get added on.
+        $(".modal-body").empty();  
+        $(".modal-header").empty();
 
     var selectedTeam = $('#team-selection').val();
 
     if(selectedTeam === null){
         selectTeamModal();
-    }else if (selectedTeam === 0){
+    }else if(selectedTeam == 0){
         noResultsModal();
     }
     else{
@@ -24,8 +27,7 @@ $(function() {
 });
 
 function renderTeam(selectedTeam) {
-    $("#teams-list").empty();
-
+    
     const settings = {
         async: true,
         crossDomain: true,
@@ -39,10 +41,6 @@ function renderTeam(selectedTeam) {
     };
     
     $.ajax(settings).done(function (response) {
-        if(response.data.length === 0){
-            //TODO: modal alerting user their search yielded no results.
-            noResultsModal();
-        }else{
                 var data = {
                     teamName:response.data.name, 
                     logo:response.data.logo, 
@@ -61,6 +59,7 @@ function renderTeam(selectedTeam) {
                         data[key] = "N/A";
                     }
                 }
+
                 //template literal so we can create a team card.
                 var teamCard = `
                 <div class= ""
@@ -79,26 +78,33 @@ function renderTeam(selectedTeam) {
                     </div>
                 </div>
                 `
-                $("#teams-list").append(teamCard);
-            
+              
+                $(".modal-body").append(teamCard);
+                
                 $('#roster-btn').on("click", function(event){
                     event.preventDefault();
                     var queryString = './results.html?q=' + data.teamName;
                     location.assign(queryString);
 
                 });
-        }
+        
     });
 
 };
 
 function noResultsModal (){
-
-console.log("no results");
+$(".modal-header").text("We're Sorry!");
+$(".modal-body").text("There is currently no information on this team. Please try again in the future!");
 };
 
 function selectTeamModal() {
-console.log("please select a team!");
+$(".modal-header").text("Hi there!");
+$(".modal-body").text("You have forgotten to select a team.");
+}
+
+function errorModal(){
+$(".modal-header").text("We're Sorry!");
+$(".modal-body").text("There must be an internal error!");
 }
 
 })

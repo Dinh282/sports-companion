@@ -1,5 +1,6 @@
 var fetchbutton = document.querySelector("#clickme");
 var oddstable = document.querySelector("#players");
+var returnbtn = document.querySelector("#return-button");
 
 var abbrevationarray = [
     {
@@ -55,7 +56,7 @@ var abbrevationarray = [
         abbrevation: "LAC"
     },
     {
-        teamname: "	Los Angeles Lakers",
+        teamname: "Los Angeles Lakers",
         abbrevation: "LAL"
     },
     {
@@ -91,6 +92,10 @@ var abbrevationarray = [
         abbrevation: "ORL"
     },
     {
+        teamname: "Philadelphia 76ers",
+        abbrevation: "PHI"
+    },
+    {
         teamname: "Phoenix Suns",
         abbrevation: "PHX"
     },
@@ -123,9 +128,9 @@ var abbrevationarray = [
 var fakeurl = "http://127.0.0.1:5500/group-projects/sports-companion/results.html?q=Chicago%20Bulls"
 function getParams() {
 
-    var searchParams = "?q=Chicago%20Bulls";
-    // var searchParams = document.location.search;
-    var tempUrl = searchParams.replace('%20'," ");
+    // var searchParams = "?q=Golden%20State%20Warriors";
+    var searchParams = document.location.search;
+    var tempUrl = searchParams.replace(/%20/g," ");
     var searchparam = tempUrl.split('=').pop();
    
     fetchplayerinfo(searchparam);
@@ -142,10 +147,11 @@ function fetchplayerinfo(teamname){
     var teammeburl = "https://api.sportsdata.io/v3/nba/scores/json/Players/"+ abbrevationname+"?key=c1092eb212894df2a85118d2e6e7ed22";
     fetch(teammeburl)
         .then(function(response){
-        return  response.json();
-        })
-        .then(function(data){
+        if (response.ok){    
+        return  response.json().then(function(data){
             console.log(data);
+            if(data.length!==0){
+
             var tablerow = document.createElement('tr');
             var tableheader = document.createElement('th');
             var jerseynum = document.createElement('th');
@@ -179,8 +185,19 @@ function fetchplayerinfo(teamname){
             positiondata.setAttribute('style','border: 2px solid black ;');
             }
             oddstable.setAttribute('style',"border: 2px solid black;");
-
+            }else{
+                var ptag = document.createElement('p');
+                ptag.textContent= "No Player Data Available";
+                oddstable.append(ptag);
+            }
         })
+        }
+    })
+}
 
+function returntomainpage(){
+    window.location.href="index.html";
 }
 getParams();
+
+returnbtn.addEventListener('click',returntomainpage);

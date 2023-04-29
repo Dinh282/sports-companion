@@ -6,6 +6,11 @@ const searchForm = document.getElementById("search-form");
 
 
 $(function() {
+    //we clear local storage so that each time the user visits the page, the search on a team
+    //will get the latest info from our API server.
+    // localStorage.clear();
+    // localStorage.setItem("teamHistory", JSON.stringify([]));
+
 
    $('#submit-btn').on("click", function(){
         //since we are using a modal to display alerts as well a team stats, we need to clear out previous data
@@ -21,46 +26,42 @@ $(function() {
         noResultsModal();
     }
     else{
-        // calls renderTeam() function retrieveData(selectedTeam);
-        renderTeam(selectedTeam);
+        //this function checks if users already searched up a team recently
+        checkLocalStorage(selectedTeam);
     }
 });
 
 function renderTeam(selectedTeam) {
-    
-    const settings = {
-        async: true,
-        crossDomain: true,
-        url: `https://sportscore1.p.rapidapi.com/teams/${selectedTeam}`,
-        method: 'GET',
-        headers: {
-            'content-type': 'application/octet-stream',
-            'X-RapidAPI-Key': '9645f86db6mshd04ff3feb630999p10f16cjsnc4bb4d59410b',
-            'X-RapidAPI-Host': 'sportscore1.p.rapidapi.com'
-        }
-    };
-    
-    $.ajax(settings).done(function (response) {
+            //we retrieve our array of teams from local storage
+            var localTeamData = localStorage.getItem(`teamHistory`);
+            var parsedLocalData = JSON.parse(localTeamData);
+            
+            //we grab the team that has id value that matches with what user selected(selectedTeam)
+            var matchedTeam = parsedLocalData.find(function(obj){
+                return obj.data.id == selectedTeam;
+            })
+          
+                //we create an object with all the data we want to display about the team
                 var data = {
-                    teamName:response.data.name, 
-                    logo:response.data.logo, 
-                    stadium:response.data.venue.stadium.en,
-                    city:response.data.venue.city.en,
-                    manager:response.data.manager.name,
-                    managerDOB:response.data.manager.date_birth,
-                    managerPhoto:response.data.manager.photo,
-                    managerNationality:response.data.manager.nationality_code}
+                    teamName:matchedTeam.data.name, 
+                    logo:matchedTeam.data.logo, 
+                    stadium:matchedTeam.data.venue.stadium.en,
+                    city:matchedTeam.data.venue.city.en,
+                    manager:matchedTeam.data.manager.name,
+                    managerDOB:matchedTeam.data.manager.date_birth,
+                    managerPhoto:matchedTeam.data.manager.photo,
+                    managerNationality:matchedTeam.data.manager.nationality_code}
                 
-                //if certain data category is unavailable, the value comes back as null. This for loop goes through our
-                //data object to check for this possible and converts null to N/A so user can understand that the info is 
-                // Not Available.
+                //if certain data category is unavailable, the value comes back as null. this for loop goes through our
+                //data object to check for this possibility and converts all nulls to N/A so user can understand that the info is 
+                //not Available.
                 for (let key in data) {
                     if( data[key] === null){
                         data[key] = "N/A";
                     }
                 }
 
-                //template literal so we can create a team card.
+                //template literal so we can easily create a team card.
                 var teamCard = `
                 <div class= ""
                     <div class= ""
@@ -85,11 +86,8 @@ function renderTeam(selectedTeam) {
                     event.preventDefault();
                     var queryString = './results.html?q=' + data.teamName;
                     location.assign(queryString);
-
                 });
         
-    });
-
 };
 
 function noResultsModal (){
@@ -105,6 +103,54 @@ $(".modal-body").text("You have forgotten to select a team.");
 function errorModal(){
 $(".modal-header").text("We're Sorry!");
 $(".modal-body").text("There must be an internal error!");
+}
+
+//this function retrieves data on the selected team.
+function retrieveTeamData(selectedTeam) {
+   
+     const settings = {
+        async: true,
+        crossDomain: true,
+        url: `https://sportscore1.p.rapidapi.com/teams/${selectedTeam}`,
+        method: 'GET',
+        headers: {
+            'content-type': 'application/octet-stream',
+            'X-RapidAPI-Key': '9645f86db6mshd04ff3feb630999p10f16cjsnc4bb4d59410b',
+            'X-RapidAPI-Host': 'sportscore1.p.rapidapi.com'
+        }
+    };
+    
+    $.ajax(settings).done(function (response) {
+        //after successfully getting a response with the team data, we save it to localStorage. This helps
+        //cut down on API calls, since we can take team data from local storage if user wants to go back and look at 
+        //previous teams
+
+        var teamHistory = JSON.parse(localStorage.getItem("teamHistory"));
+        //we push our retrieved data to our teamHistory array and set to local storage
+        teamHistory.push(response);
+        localStorage.setItem(`teamHistory`, JSON.stringify(teamHistory));
+        renderTeam(selectedTeam);
+    });
+
+}
+
+function checkLocalStorage(selectedTeam) {
+    //we take the teamHistory from local storage and parse it.
+    var localTeamData = localStorage.getItem(`teamHistory`);
+    var parsedLocalData = JSON.parse(localTeamData);
+    
+    //we use this find() array method to check if the select team id is exists in our array
+    var matchedTeam = parsedLocalData.find(function(obj){
+        return obj.data.id == selectedTeam;
+    });
+
+    //if there is no much, then we call our API to get the data, else we just have the data rendered
+    // with the renderTeam() function.
+    if(matchedTeam === undefined){
+        retrieveTeamData(selectedTeam);
+    }else{
+        renderTeam(selectedTeam);
+    }
 }
 
 })

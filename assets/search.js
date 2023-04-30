@@ -128,27 +128,27 @@ function renderTeam(selectedTeam) {
 
                 //template literal so we can easily create a team card.
                 var teamCard = `
-                <div class= "bg-slate-300 rounded-md"
-                    <div class= ""
-                        <div class="grid place-content-center ">
-                            <div class="flex flex-row p-4">
-                                <h2 class="text-8xl font-extrabold p-4 text-center text-orange-600"> ${data.teamName}</h2>
-                                <img src= ${data.logo}>
-                            </div>
-                            <p class="text-3xl text-center text-orange-400 p-1">Stadium: ${data.stadium}</p>
-                            <p class="text-3xl text-center text-orange-400">City: ${data.city}</p>
-                            <h3 class="text-4xl text-bold text-zinc-700 text-center mt-3">Manager: ${data.manager}</h3>
-                            <div class="flex justify-center items-center p-3">
-                                <img src= ${data.managerPhoto}>
-                            </div>
-                            <h4 class="text-3xl text-center text-zinc-600">Date of Birth: ${data.managerDOB}</h4>
-                            <p class="text-3xl text-center text-zinc-600">Nationality: ${data.managerNationality}</p>
-                            <div class="align-center flex justify-center">
-                                <button class="btn text-red-500 ring-2 ring-red-500 bg-orange-200 mt-5 mb-5" id="roster-btn">Click Here to See Team Roster</button>
-                            </div>
+                <div class= "grid container content-center bg-slate-300 rounded-md"
+                <div class= "grid place-content-center"
+                    <div class="">
+                        <div class="flex flex-wrap justify-center m-6 items-center">
+                            <h2 class="lg:text-8xl md:text-6xl p-3 font-extrabold text-center text-orange-600"> ${data.teamName}</h2>                         
+                            <img class="" src= ${data.logo}>
+                        </div>
+                        <p class="lg:text-3xl md:text-1 text-center text-orange-400 p-1">Stadium: ${data.stadium}</p>
+                        <p class="lg:text-3xl md:text-1 text-center text-orange-400">City: ${data.city}</p>
+                        <h3 class="lg:text-4xl md:text-2 text-bold text-zinc-700 text-center mt-3">Coach: ${data.manager}</h3>
+                        <div class="flex justify-center items-center p-3">
+                            <img src= ${data.managerPhoto}>
+                        </div>
+                        <h4 class="lg:text-3xl md:text-1 text-center text-zinc-600">Date of Birth: ${data.managerDOB}</h4>
+                        <p class="lg:text-3xl md:text-1 text-center text-zinc-600">Nationality: ${data.managerNationality}</p>
+                        <div class="justify-center items-center text-center">
+                        <button class="btn inline-flex  text-red-500 ring-2 ring-red-500 bg-orange-200 mt-5 mb-5" id="roster-btn">Click Here to See Team Roster</button>
                         </div>
                     </div>
                 </div>
+            </div>
                 `
                 $(".modal-body").append(teamCard);
                 $('#roster-btn').on("click", function(event){
@@ -191,7 +191,7 @@ function renderTeamHistory() {
         var teamID = parsedLocalData[i].data.id;
         console.log("render team hist", teamID)
         var teamIcon = `
-            <label for="my-modal" data-id="${teamID}" id="team-btn" class="bg-image bg-cover content-center">
+            <label for="my-modal" data-id="${teamID}" id="team-btn-${i}" class="bg-image bg-cover content-center">
                 <div class="flex flex-row place-content-center">
                     <img src = ${logo} alt = "${teamName}'s team logo">
                 </div>
@@ -203,18 +203,18 @@ function renderTeamHistory() {
         
     }
 
-       $(`#team-btn`).on("click", function(event){
-        event.preventDefault();
+    $(`#team-btn-${i}`).on("click", "button", function(){
+        // event.preventDefault();
         // var teamID = $(this).data("id");
         var teamID = 18815;
         
         console.log("here", teamID);
-        renderTeam(teamID);
+        checkLocalStorage(teamID);
         console.log("here", teamID);
        });
-
-    
 }
+
+       
 
 
 

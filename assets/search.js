@@ -2,7 +2,7 @@
 const searchForm = document.getElementById("search-form");
  setTimeout(()=>{
     searchForm.style.display="block";
- },3000);
+ },300);
 
 
 $(function() {
@@ -63,25 +63,29 @@ function renderTeam(selectedTeam) {
 
                 //template literal so we can easily create a team card.
                 var teamCard = `
-                <div class= ""
+                <div class= "bg-slate-300 rounded-md"
                     <div class= ""
-                        <div class= "">
-                            <h2 class= ""> ${data.teamName}</h2>
-                            <img src= ${data.logo}>
-                            <p class= "">Stadium: ${data.stadium}</p>
-                            <p class="">City: ${data.city}</p>
-                            <h3 class= "">Manager: ${data.manager}</h3>
-                            <h4 class= "">Date of Birth: ${data.managerDOB}</h4>
-                            <img src= ${data.managerPhoto}>
-                            <p class= "">Nationality: ${data.managerNationality}</p>
-                            <button class="" id="roster-btn">Click Here to See Team's Roster</button>
+                        <div class="grid place-content-center ">
+                            <div class="flex flex-row p-4">
+                                <h2 class="text-8xl font-extrabold p-4 text-center text-orange-600"> ${data.teamName}</h2>
+                                <img src= ${data.logo}>
+                            </div>
+                            <p class="text-3xl text-center text-orange-400 p-1">Stadium: ${data.stadium}</p>
+                            <p class="text-3xl text-center text-orange-400">City: ${data.city}</p>
+                            <h3 class="text-4xl text-bold text-zinc-700 text-center mt-3">Manager: ${data.manager}</h3>
+                            <div class="flex justify-center items-center p-3">
+                                <img  src= ${data.managerPhoto}>
+                            </div>
+                            <h4 class="text-3xl text-center text-zinc-600">Date of Birth: ${data.managerDOB}</h4>
+                            <p class="text-3xl text-center text-zinc-600">Nationality: ${data.managerNationality}</p>
+                            <div class="align-center flex justify-center">
+                                <button class="btn text-red-500 ring-2 ring-red-500 bg-orange-200 mt-5 mb-5" id="roster-btn">Click Here to See Team Roster</button>
+                            </div>
                         </div>
                     </div>
                 </div>
                 `
-              
                 $(".modal-body").append(teamCard);
-                
                 $('#roster-btn').on("click", function(event){
                     event.preventDefault();
                     var queryString = './results.html?q=' + data.teamName;

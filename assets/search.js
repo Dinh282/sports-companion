@@ -11,6 +11,7 @@ $(function() {
     // localStorage.clear();
     // localStorage.setItem("teamHistory", JSON.stringify([]));
 
+    renderTeamHistory();
 
    $('#submit-btn').on("click", function(){
         //since we are using a modal to display alerts as well a team stats, we need to clear out previous data
@@ -74,7 +75,7 @@ function renderTeam(selectedTeam) {
                             <p class="text-3xl text-center text-orange-400">City: ${data.city}</p>
                             <h3 class="text-4xl text-bold text-zinc-700 text-center mt-3">Manager: ${data.manager}</h3>
                             <div class="flex justify-center items-center p-3">
-                                <img  src= ${data.managerPhoto}>
+                                <img src= ${data.managerPhoto}>
                             </div>
                             <h4 class="text-3xl text-center text-zinc-600">Date of Birth: ${data.managerDOB}</h4>
                             <p class="text-3xl text-center text-zinc-600">Nationality: ${data.managerNationality}</p>
@@ -134,6 +135,7 @@ function retrieveTeamData(selectedTeam) {
         teamHistory.push(response);
         localStorage.setItem(`teamHistory`, JSON.stringify(teamHistory));
         renderTeam(selectedTeam);
+        renderTeamHistory();
     });
 
 }
@@ -155,6 +157,31 @@ function checkLocalStorage(selectedTeam) {
     }else{
         renderTeam(selectedTeam);
     }
+}
+
+
+function renderTeamHistory() {
+    var localTeamData = localStorage.getItem(`teamHistory`);
+    var parsedLocalData = JSON.parse(localTeamData);
+    console.log(parsedLocalData);
+
+    for(var i = 0; i < parsedLocalData.length; i ++){
+        var logo = parsedLocalData[i].data.logo;
+        var teamName = parsedLocalData[i].data.name;
+
+        var teamIcon = `
+            <button class='bg-image bg-cover content-center'>
+                <div class="flex flex-row place-content-center">
+                    <img src = ${logo} alt = "${teamName}'s team logo">
+                </div>
+                <h1 class="bg-gray-500 p-1 mt-4 rounded text-black text-2xl"> ${teamName}</h1>
+            </button>
+        `
+
+        $("#team-history-container").append(teamIcon);
+
+    }
+
 }
 
 })

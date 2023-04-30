@@ -10,6 +10,10 @@ $(function() {
     //will get the latest info from our API server.
     // localStorage.clear();
     // localStorage.setItem("teamHistory", JSON.stringify([]));
+    
+    // if(localStorage.getItem("teamHistory") !== null){
+    // checkLocalStorage();
+    // }
 
     renderTeamHistory();
 
@@ -32,7 +36,67 @@ $(function() {
     }
 });
 
+function checkLocalStorage(selectedTeam) {
+    console.log("checkLocalStorage")
+    if (!localStorage.getItem('teamHistory')) {
+        localStorage.setItem('teamHistory', '[]');
+    }
+
+    //we take the teamHistory from local storage and parse it.
+    var localTeamData = localStorage.getItem(`teamHistory`);
+    var parsedLocalData = JSON.parse(localTeamData);
+    
+    //we use this find() array method to check if the select team id is exists in our array
+    var matchedTeam = parsedLocalData.find(function(obj){
+        return obj.data.id == selectedTeam;
+    });
+
+    //if there is no match, then we call our API to get the data, else we just have the data rendered
+    // with the renderTeam() function.
+    if(matchedTeam === undefined){
+        retrieveTeamData(selectedTeam);
+    }else{
+        console.log("check storage hist")
+        renderTeamHistory();
+        renderTeam(selectedTeam);
+        
+    }
+}
+
+//this function retrieves data on the selected team.
+function retrieveTeamData(selectedTeam) {
+   
+    const settings = {
+       async: true,
+       crossDomain: true,
+       url: `https://sportscore1.p.rapidapi.com/teams/${selectedTeam}`,
+       method: 'GET',
+       headers: {
+           'content-type': 'application/octet-stream',
+           'X-RapidAPI-Key': '9645f86db6mshd04ff3feb630999p10f16cjsnc4bb4d59410b',
+           'X-RapidAPI-Host': 'sportscore1.p.rapidapi.com'
+       }
+   };
+   
+   $.ajax(settings).done(function (response) {
+       //after successfully getting a response with the team data, we save it to localStorage. This helps
+       //cut down on API calls, since we can take team data from local storage if user wants to go back and look at 
+       //previous teams
+
+       var teamHistory = JSON.parse(localStorage.getItem("teamHistory"));
+       //we push our retrieved data to our teamHistory array and set to local storage
+       teamHistory.push(response);
+       localStorage.setItem(`teamHistory`, JSON.stringify(teamHistory));
+       renderTeam(selectedTeam);
+       renderTeamHistory();
+       console.log("API CAllED!")
+   });
+
+}
+
 function renderTeam(selectedTeam) {
+            console.log("render team info")
+           console.log(selectedTeam)
             //we retrieve our array of teams from local storage
             var localTeamData = localStorage.getItem(`teamHistory`);
             var parsedLocalData = JSON.parse(localTeamData);
@@ -91,8 +155,8 @@ function renderTeam(selectedTeam) {
                     event.preventDefault();
                     var queryString = './results.html?q=' + data.teamName;
                     location.assign(queryString);
-                });
-        
+                }); 
+                console.log("modal opened")
 };
 
 function noResultsModal (){
@@ -110,78 +174,48 @@ $(".modal-header").text("We're Sorry!");
 $(".modal-body").text("There must be an internal error!");
 }
 
-//this function retrieves data on the selected team.
-function retrieveTeamData(selectedTeam) {
-   
-     const settings = {
-        async: true,
-        crossDomain: true,
-        url: `https://sportscore1.p.rapidapi.com/teams/${selectedTeam}`,
-        method: 'GET',
-        headers: {
-            'content-type': 'application/octet-stream',
-            'X-RapidAPI-Key': '9645f86db6mshd04ff3feb630999p10f16cjsnc4bb4d59410b',
-            'X-RapidAPI-Host': 'sportscore1.p.rapidapi.com'
-        }
-    };
-    
-    $.ajax(settings).done(function (response) {
-        //after successfully getting a response with the team data, we save it to localStorage. This helps
-        //cut down on API calls, since we can take team data from local storage if user wants to go back and look at 
-        //previous teams
 
-        var teamHistory = JSON.parse(localStorage.getItem("teamHistory"));
-        //we push our retrieved data to our teamHistory array and set to local storage
-        teamHistory.push(response);
-        localStorage.setItem(`teamHistory`, JSON.stringify(teamHistory));
-        renderTeam(selectedTeam);
-        renderTeamHistory();
-    });
-
-}
-
-function checkLocalStorage(selectedTeam) {
-    //we take the teamHistory from local storage and parse it.
-    var localTeamData = localStorage.getItem(`teamHistory`);
-    var parsedLocalData = JSON.parse(localTeamData);
-    
-    //we use this find() array method to check if the select team id is exists in our array
-    var matchedTeam = parsedLocalData.find(function(obj){
-        return obj.data.id == selectedTeam;
-    });
-
-    //if there is no much, then we call our API to get the data, else we just have the data rendered
-    // with the renderTeam() function.
-    if(matchedTeam === undefined){
-        retrieveTeamData(selectedTeam);
-    }else{
-        renderTeam(selectedTeam);
-    }
-}
-
-
+//function to render any team that user have selected previous. team data taken from local storage.
 function renderTeamHistory() {
+    if (!localStorage.getItem('teamHistory')) {
+        localStorage.setItem('teamHistory', '[]');
+    }
+
+    $("#team-history-container").empty();
     var localTeamData = localStorage.getItem(`teamHistory`);
     var parsedLocalData = JSON.parse(localTeamData);
-    console.log(parsedLocalData);
 
     for(var i = 0; i < parsedLocalData.length; i ++){
         var logo = parsedLocalData[i].data.logo;
         var teamName = parsedLocalData[i].data.name;
-
+        var teamID = parsedLocalData[i].data.id;
+        console.log("render team hist", teamID)
         var teamIcon = `
-            <button class='bg-image bg-cover content-center'>
+            <label for="my-modal" data-id="${teamID}" id="team-btn" class="bg-image bg-cover content-center">
                 <div class="flex flex-row place-content-center">
                     <img src = ${logo} alt = "${teamName}'s team logo">
                 </div>
-                <h1 class="bg-gray-500 p-1 mt-4 rounded text-black text-2xl"> ${teamName}</h1>
-            </button>
+                <h1  class="bg-gray-300 p-1 mt-4 rounded text-black text-2xl">${teamName}</h1>
+            </label>
         `
 
         $("#team-history-container").append(teamIcon);
-
+        
     }
 
+       $(`#team-btn`).on("click", function(event){
+        event.preventDefault();
+        // var teamID = $(this).data("id");
+        var teamID = 18815;
+        
+        console.log("here", teamID);
+        renderTeam(teamID);
+        console.log("here", teamID);
+       });
+
+    
 }
+
+
 
 })

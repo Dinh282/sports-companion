@@ -2,6 +2,10 @@ var fetchbutton = document.querySelector("#clickme");
 var oddstable = document.querySelector("#players");
 var returnbtn = document.querySelector("#return-button");
 
+var memberCard =   `
+
+`
+
 var abbrevationarray = [
     {
         teamname: "Atlanta Hawks",

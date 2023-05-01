@@ -209,7 +209,7 @@ function renderTeamHistory() {
         var teamID = 18815;
         
         console.log("here", teamID);
-        checkLocalStorage(teamID);
+        renderTeam(teamID);
         console.log("here", teamID);
        });
 }

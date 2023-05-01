@@ -1,8 +1,8 @@
-// js to allow search form to appear 3s after page loads
+// js to allow search form to appear 5s after page loads
 const searchForm = document.getElementById("search-form");
  setTimeout(()=>{
     searchForm.style.display="block";
- },300);
+ },5000);
 
 
 $(function() {
@@ -59,7 +59,6 @@ function checkLocalStorage(selectedTeam) {
         console.log("check storage hist")
         renderTeamHistory();
         renderTeam(selectedTeam);
-        
     }
 }
 
@@ -95,8 +94,8 @@ function retrieveTeamData(selectedTeam) {
 }
 
 function renderTeam(selectedTeam) {
-            console.log("render team info")
-           console.log(selectedTeam)
+            $(".modal-body").empty();
+            
             //we retrieve our array of teams from local storage
             var localTeamData = localStorage.getItem(`teamHistory`);
             var parsedLocalData = JSON.parse(localTeamData);
@@ -159,11 +158,13 @@ function renderTeam(selectedTeam) {
                 console.log("modal opened")
 };
 
+//handles the message to be displayed on modal if user selects team that API has no data for.
 function noResultsModal (){
 $(".modal-header").text("We're Sorry!");
 $(".modal-body").text("There is currently no information on this team. Please try again in the future!");
 };
 
+//handles message to be displayed on modal if user does not select a team before clicking search button.
 function selectTeamModal() {
 $(".modal-header").text("Hi there!");
 $(".modal-body").text("You have forgotten to select a team.");
@@ -177,19 +178,22 @@ $(".modal-body").text("There must be an internal error!");
 
 //function to render any team that user have selected previous. team data taken from local storage.
 function renderTeamHistory() {
+
+    //checks if local storage has the teamHistory key is there, if not then to set it and give it a value of an empty array.
     if (!localStorage.getItem('teamHistory')) {
         localStorage.setItem('teamHistory', '[]');
     }
 
+    //empty out the container so new data doesn't stack on previous data.
     $("#team-history-container").empty();
     var localTeamData = localStorage.getItem(`teamHistory`);
     var parsedLocalData = JSON.parse(localTeamData);
 
+    //we go through each item of teamHistory to create a button for each team and append it to the container.
     for(var i = 0; i < parsedLocalData.length; i ++){
         var logo = parsedLocalData[i].data.logo;
         var teamName = parsedLocalData[i].data.name;
         var teamID = parsedLocalData[i].data.id;
-        console.log("render team hist", teamID)
         var teamIcon = `
             <label for="my-modal" data-id="${teamID}" id="team-btn-${i}" class="bg-image bg-cover content-center">
                 <div class="flex flex-row place-content-center">
@@ -200,22 +204,21 @@ function renderTeamHistory() {
         `
 
         $("#team-history-container").append(teamIcon);
-        
+
+        //we add an event listener to each of the team button, when fired we call the renderTeam function to render the team
+        //info for the specific team by passing on the data value of the team id. we set in the teanIcon card in the previous
+        // for loop
+        $(`#team-btn-${i}`).on("click", function(){
+        // event.preventDefault();
+        var teamID = $(this).data("id");
+        renderTeam(teamID);
+       });
+
+
     }
 
-    $(`#team-btn-${i}`).on("click", "button", function(){
-        // event.preventDefault();
-        // var teamID = $(this).data("id");
-        var teamID = 18815;
-        
-        console.log("here", teamID);
-        checkLocalStorage(teamID);
-        console.log("here", teamID);
-       });
+  
 }
-
-       
-
 
 
 })

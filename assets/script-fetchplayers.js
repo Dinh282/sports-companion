@@ -1,5 +1,5 @@
 var fetchbutton = document.querySelector("#clickme");
-var oddstable = document.querySelector("#players");
+var cardsdisplay = document.querySelector("#cards");
 var returnbtn = document.querySelector("#return-button");
 
 var memberCard =   `
@@ -131,9 +131,8 @@ var abbrevationarray = [
 
 var fakeurl = "http://127.0.0.1:5500/group-projects/sports-companion/results.html?q=Chicago%20Bulls"
 function getParams() {
-
-    // var searchParams = "?q=Golden%20State%20Warriors";
-    var searchParams = document.location.search;
+    var searchParams = "?q=Boston%20Celtics";
+    // var searchParams = document.location.search;
     var tempUrl = searchParams.replace(/%20/g," ");
     var searchparam = tempUrl.split('=').pop();
    
@@ -147,52 +146,40 @@ function fetchplayerinfo(teamname){
             abbrevationname = abbrevationarray[i].abbrevation;
         }
     }
-
+    // fetch from Sports API
     var teammeburl = "https://api.sportsdata.io/v3/nba/scores/json/Players/" + abbrevationname + "?key=c1092eb212894df2a85118d2e6e7ed22";
     fetch(teammeburl)
         .then(function(response){
         if (response.ok){    
         return  response.json().then(function(data){
-            // console.log(data);
-            if(data.length !== 0){
-
-            var tablerow = document.createElement('tr');
-            var tableheader = document.createElement('th');
-            var jerseynum = document.createElement('th');
-            var position = document.createElement('th');
-            tableheader.innerHTML = "Players";
-            jerseynum.innerHTML = "Jersey #";
-            position.innerHTML = "Position";
-            tablerow.append(tableheader);
-            tablerow.append(jerseynum);
-            tablerow.append(position);
-            oddstable.appendChild(tablerow);
-            for (var i = 0; i < data.length; i++){
-            var datarow = document.createElement('tr');
-            var tabledata = document.createElement('td');
-            var jerseydata = document.createElement('td');
-            var positiondata = document.createElement('td');
-            var photo = document.createElement('td');
-            var image = document.createElement('img');
-            tabledata.innerHTML = data[i].FirstName + " " + data[i].LastName
-            jerseydata.innerHTML = data[i].Jersey;
-            positiondata.innerHTML = data[i].Position;
-            image.setAttribute('src',data[i].PhotoUrl)
-            datarow.append(tabledata);
-            datarow.append(jerseydata);
-            datarow.append(positiondata);
-            photo.append(image);
-            datarow.append(photo);
-            oddstable.append(datarow);
-            tabledata.setAttribute('style','border: 2px solid black ;');
-            jerseydata.setAttribute('style','border: 2px solid black ;');
-            positiondata.setAttribute('style','border: 2px solid black ;');
-            }
-            oddstable.setAttribute('style',"border: 2px solid black;");
+            if(data.length!==0){
+                for (var i=0;i<data.length;i++){
+                    var divelement = document.createElement('div');
+                    divelement.classList.add("card", "w-72", 'card-bordered', "card-compact", "lg:card-normal","basis-1/8","mx-4", "my-4","bg-primary-content", "text-black");
+                    var figureelement = document.createElement('figure');
+                    var imageelement = document.createElement('img');
+                    imageelement.setAttribute('src',data[i].PhotoUrl);
+                    figureelement.append(imageelement);
+                    divelement.append(figureelement);
+                    var div2element = document.createElement('div');
+                    div2element.classList.add("card-body");
+                    var divheader= document.createElement('h2');
+                    divheader.classList.add("card-title");
+                    var divp1tag = document.createElement('p');
+                    var divp2tag = document.createElement('p');
+                    divheader.textContent = data[i].FirstName + " " + data[i].LastName;
+                    divp1tag.textContent = "Jersey No - " + data[i].Jersey;
+                    divp2tag.textContent = "Position - " +  data[i].Position;
+                    div2element.append(divheader);
+                    div2element.append(divp1tag);
+                    div2element.append(divp2tag);
+                    divelement.append(div2element);
+                    cardsdisplay.append(divelement);
+                }
             }else{
                 var ptag = document.createElement('p');
                 ptag.textContent= "No Player Data Available";
-                oddstable.append(ptag);
+                cardsdisplay.append(ptag);
             }
         })
         }

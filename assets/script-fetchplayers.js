@@ -137,13 +137,13 @@ function getParams() {
   }
 function fetchplayerinfo(teamname){
 
-    for (var i=0;i<abbrevationarray.length;i++){
-        if (teamname=== abbrevationarray[i].teamname){
+    for (var i = 0; i < abbrevationarray.length; i++){
+        if (teamname === abbrevationarray[i].teamname){
             abbrevationname = abbrevationarray[i].abbrevation;
         }
     }
 
-    var teammeburl = "https://api.sportsdata.io/v3/nba/scores/json/Players/"+ abbrevationname+"?key=c1092eb212894df2a85118d2e6e7ed22";
+    var teammeburl = "https://api.sportsdata.io/v3/nba/scores/json/Players/" + abbrevationname + "?key=c1092eb212894df2a85118d2e6e7ed22";
     fetch(teammeburl)
         .then(function(response){
         if (response.ok){    

@@ -6,12 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- <link href="https://cdn.tailwindcss.com" rel="stylesheet"> -->
     <link rel="stylesheet" type="text/css" href="./assets/style.css"/>
+    <script src="https://cdn.tailwindcss.com"></script> <!-- Correctly reference Tailwind per documentation -->
     <link
-      href="https://cdn.jsdelivr.net/npm/daisyui@2.51.6/dist/full.css"
-      rel="stylesheet"
-      type="text/css"
-    >
-    <title>Team Roster</title>
+    href="https://cdn.jsdelivr.net/npm/daisyui@2.51.6/dist/full.css"
+    rel="stylesheet"
+    type="text/css"
+  >
+    <title>Team Rooster</title>
 </head>
 <body>
     
@@ -24,13 +25,9 @@
         <section id="card-return-call" class="bg-red-400 text-center">Text here</section>
     </div> -->
 
-    <button class="btn text-red-500 ring-2 ring-red-500 bg-orange-100 mt-3 ml-3" id="return-button">Back</button>
-    <div class="grid place-content-center">
-    <table class="border-seperate border-spacing-2 border border-slate-500" id="players">
-    </table>
+    <button class="btn btn-link" id="return-button">Back</button>
+    <div class="flex flex-wrap flex-row ..." id="cards">
     </div>
-
-    <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script defer src="./assets/script-fetchplayers.js"></script>
 </body>

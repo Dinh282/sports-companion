@@ -205,11 +205,10 @@ function getschedule(){
             {   
                 gamebtwn.textContent = "Teams:  " + data[i].HomeTeam + " Vs " + data[i].AwayTeam;
                 scheduledate.textContent = "Scheduled Date&Time:  " + data[i].DateTime;
-                statusdisplay.textContent = "Status of the Game:  " + data[i].Status;
-      
+                statusdisplay.textContent = "Status of the Game:  " + data[i].Status;     
             }
             else{
-                gamebtwn.textContent = "No Games scheduled for "+ teamabbrevation + "today!!!";
+                gamebtwn.textContent = "No Games scheduled for "+ teamabbrevation + " today!!!";
             }
         }
     });

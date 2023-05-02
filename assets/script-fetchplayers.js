@@ -151,10 +151,11 @@ function fetchplayerinfo(teamname){
             if(data.length!==0){
                 for (var i=0;i<data.length;i++){
                     var divelement = document.createElement('div');
-                    divelement.classList.add("card", "w-72", 'card-bordered', "card-compact", "lg:card-normal","basis-1/8","mx-4", "my-4","bg-primary-content", "text-black");
+                    divelement.classList.add("card", "w-72", 'card-bordered', "card-compact", "lg:card-normal","basis-1/8","mx-4", "my-4","bg-primary-content", "text-black", "lg:basis-1/4");
                     var figureelement = document.createElement('figure');
                     var imageelement = document.createElement('img');
                     imageelement.setAttribute('src',data[i].PhotoUrl);
+                    imageelement.classList.add("lg:w-40");
                     figureelement.append(imageelement);
                     divelement.append(figureelement);
                     var div2element = document.createElement('div');
@@ -166,6 +167,8 @@ function fetchplayerinfo(teamname){
                     divheader.textContent = data[i].FirstName + " " + data[i].LastName;
                     divp1tag.textContent = "Jersey No - " + data[i].Jersey;
                     divp2tag.textContent = "Position - " +  data[i].Position;
+                    divp1tag.classList.add("lg:text-xl");
+                    divp2tag.classList.add("lg:text-xl");
                     div2element.append(divheader);
                     div2element.append(divp1tag);
                     div2element.append(divp2tag);

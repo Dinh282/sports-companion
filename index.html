@@ -26,7 +26,7 @@
   
         <div id="divider"></div>
 
-        <section class="flex flex-row place-content-center">
+        <section class="flex flex-wrap place-content-center ">
           <form id="search-form" style="display: none">
          
             <select
@@ -65,14 +65,12 @@
               <option value="18809">Utah Jazz</option>
               <option value="18799">Washington Wizards</option>
             </select>
-            <label for="my-modal" class="btn" id="submit-btn">Search</label>
+            <label for="my-modal" class="btn " id="submit-btn">Search</label>
           </form>
         </section>
 
           <!-- container for team history list -->
-          <div for="my-modal" class="flex flex-wrap gap-4 container pt-5 place-content-center" id="team-history-container">
-            
-          </div>
+          <div for="my-modal" class="flex flex-wrap gap-4  pt-5 place-content-center" id="team-history-container" style="display: none"></div>
 
 
           <!-- layout for modal -->
@@ -88,7 +86,6 @@
               </div>
             </div>
           </div>
-
     </main>
           
     <script src="https://cdn.tailwindcss.com"></script>

@@ -132,7 +132,6 @@ function getParams() {
     var searchParams = document.location.search;
     var tempUrl = searchParams.replace(/%20/g," ");
     var searchparam = tempUrl.split('=').pop();
-    console.log(searchparam);
    
     for (var i=0;i<abbrevationarray.length;i++){
         if (searchparam=== abbrevationarray[i].teamname){
@@ -142,7 +141,7 @@ function getParams() {
    return abbrevationname;   
 }
 
-function fetchplayerinfo(teamname){
+function fetchplayerinfo(){
 
     var teamname = getParams();
     var teammeburl = "https://api.sportsdata.io/v3/nba/scores/json/Players/" + teamname + "?key=c1092eb212894df2a85118d2e6e7ed22";

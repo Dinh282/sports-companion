@@ -1,6 +1,9 @@
-var fetchbutton = document.querySelector("#clickme");
 var cardsdisplay = document.querySelector("#cards");
 var returnbtn = document.querySelector("#return-button");
+var schedulebtn = document.querySelector("#schedule");
+var gamebtwn = document.querySelector("#gamebetween");
+var scheduledate = document.querySelector("#scheduledate");
+var statusdisplay = document.querySelector("#status");
 
 var abbrevationarray = [
     {
@@ -125,25 +128,24 @@ var abbrevationarray = [
     }
 ];
 
-var fakeurl = "http://127.0.0.1:5500/group-projects/sports-companion/results.html?q=Chicago%20Bulls"
 function getParams() {
-    var searchParams = "?q=Boston%20Celtics";
-    // var searchParams = document.location.search;
+    var searchParams = document.location.search;
     var tempUrl = searchParams.replace(/%20/g," ");
     var searchparam = tempUrl.split('=').pop();
+    console.log(searchparam);
    
-    fetchplayerinfo(searchparam);
-    
-  }
-function fetchplayerinfo(teamname){
-
-    for (var i = 0; i < abbrevationarray.length; i++){
-        if (teamname === abbrevationarray[i].teamname){
-            abbrevationname = abbrevationarray[i].abbrevation;
+    for (var i=0;i<abbrevationarray.length;i++){
+        if (searchparam=== abbrevationarray[i].teamname){
+            var abbrevationname = abbrevationarray[i].abbrevation;
         }
     }
-    // fetch from Sports API
-    var teammeburl = "https://api.sportsdata.io/v3/nba/scores/json/Players/" + abbrevationname + "?key=c1092eb212894df2a85118d2e6e7ed22";
+   return abbrevationname;   
+}
+
+function fetchplayerinfo(teamname){
+
+    var teamname = getParams();
+    var teammeburl = "https://api.sportsdata.io/v3/nba/scores/json/Players/" + teamname + "?key=c1092eb212894df2a85118d2e6e7ed22";
     fetch(teammeburl)
         .then(function(response){
         if (response.ok){    
@@ -188,6 +190,32 @@ function fetchplayerinfo(teamname){
 function returntomainpage(){
     window.location.href="index.html";
 }
-getParams();
 
+function getschedule(){
+    var teamabbrevation = getParams();
+    var todaydate = dayjs().format('YYYY-MMM-DD');
+    var scheduleurl = "https://api.sportsdata.io/v3/nba/scores/json/GamesByDate/"+ todaydate +"?key=c1092eb212894df2a85118d2e6e7ed22";
+    fetch(scheduleurl)
+    .then(function(response){
+        return response.json();
+    })
+    .then(function(data){
+        console.log(data);
+        for (var i=0;i<data.length;i++){
+            if ((teamabbrevation===data[i].AwayTeam)|| (teamabbrevation===data[i].HomeTeam))
+            {   
+                gamebtwn.textContent = "Teams:  " + data[i].HomeTeam + " Vs " + data[i].AwayTeam;
+                scheduledate.textContent = "Scheduled Date&Time:  " + data[i].DateTime;
+                statusdisplay.textContent = "Status of the Game:  " + data[i].Status;
+      
+            }
+            else{
+                gamebtwn.textContent = "No Games scheduled for "+ teamabbrevation + "today!!!";
+            }
+        }
+    });
+}
+
+fetchplayerinfo();
 returnbtn.addEventListener('click',returntomainpage);
+schedulebtn.addEventListener('click',getschedule);

@@ -1,10 +1,10 @@
-// js to allow search form to appear 5s after page loads
+// js to allow search form to appear 3s after page loads
 const searchForm = document.getElementById("search-form");
 const teamHistoryContainer = document.getElementById("team-history-container");
  setTimeout(() => {
     searchForm.style.display = "block";
     teamHistoryContainer.style.display = "flex";
- },5000);
+ },3000);
 
 
 $(function() {

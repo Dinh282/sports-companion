@@ -166,7 +166,7 @@ function fetchplayerinfo(){
                     var divp1tag = document.createElement('p');
                     var divp2tag = document.createElement('p');
                     divheader.textContent = data[i].FirstName + " " + data[i].LastName;
-                    divp1tag.textContent = "Jersey No - " + data[i].Jersey;
+                    divp1tag.textContent = "Jersey # - " + data[i].Jersey;
                     divp2tag.textContent = "Position - " +  data[i].Position;
                     divp1tag.classList.add("lg:text-xl");
                     divp2tag.classList.add("lg:text-xl");
@@ -201,7 +201,7 @@ function getschedule(){
     .then(function(data){
         console.log(data);
         for (var i=0;i<data.length;i++){
-            if ((teamabbrevation===data[i].AwayTeam)|| (teamabbrevation===data[i].HomeTeam))
+            if ((teamabbrevation===data[i].AwayTeam) || (teamabbrevation===data[i].HomeTeam))
             {   
                 gamebtwn.textContent = "Teams:  " + data[i].HomeTeam + " Vs " + data[i].AwayTeam;
                 scheduledate.textContent = "Scheduled Date&Time:  " + data[i].DateTime;

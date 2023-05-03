@@ -1,7 +1,9 @@
 // js to allow search form to appear 5s after page loads
 const searchForm = document.getElementById("search-form");
- setTimeout(()=>{
-    searchForm.style.display="block";
+const teamHistoryContainer = document.getElementById("team-history-container");
+ setTimeout(() => {
+    searchForm.style.display = "block";
+    teamHistoryContainer.style.display = "flex";
  },5000);
 
 
@@ -37,7 +39,6 @@ $(function() {
 });
 
 function checkLocalStorage(selectedTeam) {
-    console.log("checkLocalStorage")
     if (!localStorage.getItem('teamHistory')) {
         localStorage.setItem('teamHistory', '[]');
     }
@@ -56,7 +57,6 @@ function checkLocalStorage(selectedTeam) {
     if(matchedTeam === undefined){
         retrieveTeamData(selectedTeam);
     }else{
-        console.log("check storage hist")
         renderTeamHistory();
         renderTeam(selectedTeam);
     }
@@ -131,19 +131,19 @@ function renderTeam(selectedTeam) {
                 <div class= "grid place-content-center"
                     <div class="">
                         <div class="flex flex-wrap justify-center m-6 items-center">
-                            <h2 class="lg:text-8xl md:text-6xl p-3 font-extrabold text-center text-orange-600"> ${data.teamName}</h2>                         
+                            <h2 class=" text-5xl lg:text-8xl md:text-6xl  p-3 font-extrabold text-center text-orange-600"> ${data.teamName}</h2>                         
                             <img class="" src= ${data.logo}>
                         </div>
-                        <p class="lg:text-3xl md:text-1 text-center text-orange-400 p-1">Stadium: ${data.stadium}</p>
-                        <p class="lg:text-3xl md:text-1 text-center text-orange-400">City: ${data.city}</p>
-                        <h3 class="lg:text-4xl md:text-2 text-bold text-zinc-700 text-center mt-3">Coach: ${data.manager}</h3>
+                        <p class=" text-xl lg:text-3xl md:text-2xl text-center text-orange-400 p-1">Stadium: ${data.stadium}</p>
+                        <p class="text-xl lg:text-3xl md:text-2xl text-center text-orange-400">City: ${data.city}</p>
+                        <h3 class="text-xl lg:text-4xl md:text-3xl text-bold text-zinc-700 text-center mt-3">Coach: ${data.manager}</h3>
                         <div class="flex justify-center items-center p-3">
                             <img src= ${data.managerPhoto}>
                         </div>
-                        <h4 class="lg:text-3xl md:text-1 text-center text-zinc-600">Date of Birth: ${data.managerDOB}</h4>
-                        <p class="lg:text-3xl md:text-1 text-center text-zinc-600">Nationality: ${data.managerNationality}</p>
+                        <h4 class="text-base lg:text-2xl md:text-1xl text-center text-zinc-600">Date of Birth: ${data.managerDOB}</h4>
+                        <p class="text-base lg:text-2xl md:text-1xl text-center text-zinc-600">Nationality: ${data.managerNationality}</p>
                         <div class="justify-center items-center text-center">
-                        <button class="btn inline-flex  text-red-500 ring-2 ring-red-500 bg-orange-200 mt-5 mb-5" id="roster-btn">Click Here to See Team Roster</button>
+                        <button class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg inline-flex hover:no-underline text-white bg-orange-400 hover:bg-orange-600 mt-5 mb-5" id="roster-btn">Click Here to See Team Roster</button>
                         </div>
                     </div>
                 </div>
@@ -155,7 +155,6 @@ function renderTeam(selectedTeam) {
                     var queryString = './results.html?q=' + data.teamName;
                     location.assign(queryString);
                 }); 
-                console.log("modal opened")
 };
 
 //handles the message to be displayed on modal if user selects team that API has no data for.
@@ -195,11 +194,10 @@ function renderTeamHistory() {
         var teamName = parsedLocalData[i].data.name;
         var teamID = parsedLocalData[i].data.id;
         var teamIcon = `
-            <label for="my-modal" data-id="${teamID}" id="team-btn-${i}" class="bg-image bg-cover content-center">
-                <div class="flex flex-row place-content-center">
-                    <img src = ${logo} alt = "${teamName}'s team logo">
+            <label for="my-modal" data-id="${teamID}" id="team-btn-${i}" class=" bg-image bg-cover content-center" >
+                <div class="flex flex-wrap w-24 h-24 items-center justify-center mask mask-decagon bg-gray-200 rounded-md transition duration-500 transform hover:scale-110" >
+                    <img src = ${logo} alt = "${teamName}'s team logo" class="object-cover h-full w-full ">
                 </div>
-                <h1  class="bg-gray-300 p-1 mt-4 rounded text-black text-2xl">${teamName}</h1>
             </label>
         `
 

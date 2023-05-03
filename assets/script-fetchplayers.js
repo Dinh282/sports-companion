@@ -142,7 +142,6 @@ function getParams() {
 }
 
 function fetchplayerinfo(){
-
     var teamname = getParams();
     var teammeburl = "https://api.sportsdata.io/v3/nba/scores/json/Players/" + teamname + "?key=c1092eb212894df2a85118d2e6e7ed22";
     fetch(teammeburl)
@@ -199,7 +198,6 @@ function getschedule(){
         return response.json();
     })
     .then(function(data){
-        console.log(data);
         for (var i=0;i<data.length;i++){
             if ((teamabbrevation===data[i].AwayTeam) || (teamabbrevation===data[i].HomeTeam))
             {   

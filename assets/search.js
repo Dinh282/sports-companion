@@ -199,7 +199,6 @@ function renderTeamHistory() {
         //info for the specific team by passing on the data value of the team id. we set in the teanIcon card in the previous
         // for loop
         $(`#team-btn-${i}`).on("click", function(){
-        // event.preventDefault();
         var teamID = $(this).data("id");
         renderTeam(teamID);
        });

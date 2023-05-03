@@ -4,8 +4,10 @@
 
 A compact application for referencing NBA team rosters and displaying information on the coach and players.
 
+
 [A link to the deployed application.](https://dinh282.github.io/sports-companion/)
 
+Image of webpage:
 ![Screenshot of the application.](/assets/screenshot.PNG)
 
 ## Installation

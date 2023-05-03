@@ -6,11 +6,16 @@ A compact application for referencing NBA team rosters and displaying informatio
 
 [A link to the deployed application.](https://dinh282.github.io/sports-companion/)
 
+![Screenshot of the application.](/assets/screenshot.PNG)
+
 ## Installation
 
 Navigate in the web browser to the chosen API page - in this case, Sport Score API - and sign up for an API key.
+
 Navigate to the repository page and use the SSL key to clone the repository to your local machine. Enter the API key value in the appropriate location.
+
 Open the project in your code editor of choice.
+
 Preview and run the application in your chosen web browser.
 
 ## Usage

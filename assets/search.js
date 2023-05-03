@@ -8,15 +8,6 @@ const teamHistoryContainer = document.getElementById("team-history-container");
 
 
 $(function() {
-    //we clear local storage so that each time the user visits the page, the search on a team
-    //will get the latest info from our API server.
-    // localStorage.clear();
-    // localStorage.setItem("teamHistory", JSON.stringify([]));
-    
-    // if(localStorage.getItem("teamHistory") !== null){
-    // checkLocalStorage();
-    // }
-
     renderTeamHistory();
 
    $('#submit-btn').on("click", function(){
@@ -53,7 +44,7 @@ function checkLocalStorage(selectedTeam) {
     });
 
     //if there is no match, then we call our API to get the data, else we just have the data rendered
-    // with the renderTeam() function.
+    //with the renderTeam() function.
     if(matchedTeam === undefined){
         retrieveTeamData(selectedTeam);
     }else{
@@ -88,7 +79,9 @@ function retrieveTeamData(selectedTeam) {
        localStorage.setItem(`teamHistory`, JSON.stringify(teamHistory));
        renderTeam(selectedTeam);
        renderTeamHistory();
-       console.log("API CAllED!")
+   })
+   .fail(function(){
+    errorModal();
    });
 
 }
@@ -174,7 +167,6 @@ $(".modal-header").text("We're Sorry!");
 $(".modal-body").text("There must be an internal error!");
 }
 
-
 //function to render any team that user have selected previous. team data taken from local storage.
 function renderTeamHistory() {
 
@@ -207,16 +199,10 @@ function renderTeamHistory() {
         //info for the specific team by passing on the data value of the team id. we set in the teanIcon card in the previous
         // for loop
         $(`#team-btn-${i}`).on("click", function(){
-        // event.preventDefault();
         var teamID = $(this).data("id");
         renderTeam(teamID);
        });
-
-
     }
-
-  
 }
-
 
 })

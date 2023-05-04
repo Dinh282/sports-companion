@@ -44,7 +44,7 @@ var abbrevationarray = [
     },
     {
         teamname: "Golden State Warriors",
-        abbrevation: "GSW"
+        abbrevation: "GS"
     },
     {
         teamname: "Houston Rockets",
@@ -80,11 +80,11 @@ var abbrevationarray = [
     },
     {
         teamname: "New Orleans Pelicans",
-        abbrevation: "NOP"
+        abbrevation: "NO"
     },
     {
         teamname: "New York Knicks",
-        abbrevation: "NYK"
+        abbrevation: "NY"
     },
     {
         teamname: "Oklahoma City Thunder",
@@ -112,7 +112,7 @@ var abbrevationarray = [
     },
     {
         teamname: "San Antonio Spurs",
-        abbrevation: "SAS"
+        abbrevation: "SA"
     },
     {
         teamname: "Toronto Raptors",
